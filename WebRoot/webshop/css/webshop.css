@@ -1,0 +1,111 @@
+*>li>a{
+	color:#993366;
+}
+*>li>a:hover{
+	color:#993366;
+}
+*>p>a{
+	color:#993366;
+}
+body{
+	background-color: #FFFFFF;
+}
+.box{
+	overflow:hidden;
+	border: 1px solid #FF99CC;
+}
+.row .box:hover{
+	box-shadow:1px 1px 2px #FF99CC;
+}
+.caption .title{
+	display: block;
+	height: 1.5em;
+	line-height: 1.5;
+	overflow: hidden;
+	text-overflow:ellipsis;
+}
+.caption .button{
+	margin-top: 5px;
+}
+#loading{
+	display: none;
+}
+.shoppingcar{
+	position: fixed;
+	z-index: 999;
+	bottom: 50px;
+	right: 0;
+}
+.shoppingcar li{
+	background-color: #993366;
+	padding:5px;
+	margin: 1px;
+}
+.shoppingcar li a{
+	text-decoration: none;
+	color: #FFFFFF;
+}
+.shoppingcar li:hover{
+	background-color: #993366;
+	opacity: o.9;
+	-moz-opacity:0.9;
+	-webkit-opacity:0.9;
+	color: #fff;
+}
+.shoppingcar li span{
+	font-size: 30px;
+}
+.userbox{
+	position:fixed;
+	bottom: 60px;
+	right: 42px;
+	background-color: #993366;
+	width: 200px;
+	height: 150px;
+	color:#fff;
+	padding:5px;
+	display: none;
+}
+.carbox{
+	position:fixed;
+	display:block;
+	bottom: 60px;
+	right: 42px;
+	background-color: #993366;
+	width: 300px;
+	color:#fff;
+	padding:5px;
+	display: none;
+}
+.navbar-brand>li>a{
+	color:#993366;
+}
+.navbar-brand{
+	vertical-align:bottom;
+	color:#993366;
+}
+.navbar-brand:hover{
+	color:#993366;
+}
+.navbar-brand span{
+	font-size: 18px;
+	font-weight: bold;
+}
+@media (min-width: 992px){
+	.box>img{
+		width: 100%;
+		height: 180px;
+	}
+}
+@media (min-width: 768px){
+	.box>img{
+		width: 100%;
+		height: 225px;
+	}
+}
+@media (max-width:768px){
+	.box>img{
+		width: 100%;
+		height: auto;
+	}
+}

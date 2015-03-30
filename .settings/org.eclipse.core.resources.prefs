@@ -1,0 +1,27 @@
+#Sat Apr 11 14:42:59 CST 2015
+eclipse.preferences.version=1
+encoding//WebRoot/js/basefn.js=UTF-8
+encoding//WebRoot/js/checktool.js=UTF-8
+encoding//WebRoot/js/myhtml5fileupload.js=UTF-8
+encoding//WebRoot/js/pos.js=UTF-8
+encoding//WebRoot/js/uploadtool.js=UTF-8
+encoding//WebRoot/webshop/css/webshop.css=UTF-8
+encoding//src/action/BaseAction.java=UTF-8
+encoding//src/action/CompanyInfoAction.java=UTF-8
+encoding//src/action/CustomerAction.java=UTF-8
+encoding//src/action/FileUploadAction.java=UTF-8
+encoding//src/action/InboundAction.java=UTF-8
+encoding//src/action/PriceAction.java=UTF-8
+encoding//src/action/PrintOptionAction.java=UTF-8
+encoding//src/action/ProductinfoAction.java=UTF-8
+encoding//src/action/PtypeAction.java=UTF-8
+encoding//src/action/ReportAction.java=UTF-8
+encoding//src/action/RetialAction.java=UTF-8
+encoding//src/action/SaleAction.java=UTF-8
+encoding//src/action/SupplierAction.java=UTF-8
+encoding//src/action/TransferAction.java=UTF-8
+encoding//src/action/TuihuoAction.java=UTF-8
+encoding//src/action/UserAction.java=UTF-8
+encoding//src/action/WarehouseAction.java=UTF-8
+encoding//src/action/WebshopAction.java=UTF-8
+encoding//src/junit/Test.java=UTF-8

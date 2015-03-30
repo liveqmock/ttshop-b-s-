@@ -1,0 +1,766 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+		<include file="struts-default.xml"></include>
+		<!-- <bean name="requestParser" type="org.apache.struts2.dispatcher.multipart.MultiPartRequest"  class="tools.MyJakartaMultiPartRequest" 
+				scope="default" optional="true"></bean> -->
+		<constant name="struts.devMode" value="false" />
+		<constant name="struts.i18n.encoding" value="UTF-8"/>
+		<!-- struts2.3.15后改成这个 -->
+		<!-- <constant name="struts.multipart.parser" value="requestParser"></constant> -->
+		<!-- struts2.3.15前用这个 -->
+		<!-- <constant name="struts.multipart.handler" value="requestParser"></constant> -->
+		<!--  <constant name="struts.objectFactory" value="spring"/> -->
+		<!-- 设置上传文件大小限制10MB，struts2默认2MB多文件时不够用 -->
+		<constant name="struts.multipart.maxSize" value="10485760"/> 
+		<package name="base" extends="struts-default,json-default,jfreechart-default">
+			<result-types>
+				<result-type name="chart" class="org.apache.struts2.dispatcher.ChartResult"></result-type>
+			</result-types>
+			<global-results>
+				<result name="SUCCESS">/success.jsp</result>
+				<result name="LOGIN">/login.jsp</result>
+				<result name="ERROR">/error.jsp</result>
+			</global-results>
+			<global-exception-mappings>
+				<exception-mapping result="ERROR" exception="java.lang.Exception"></exception-mapping>
+			</global-exception-mappings>
+		</package>
+		
+		<package name="user" namespace="/user" extends="base">
+			<action name="checkuserid" class="userAction" method="checkuserid"></action>
+			<action name="chechLogin" class="userAction" method="chechLogin"></action>
+			<action name="register" class="userAction" method="register">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="token"></interceptor-ref>
+				<result name="invalid.token">/errorreapt.jsp</result>
+				<result name="INPUT">/user/register.jsp</result>
+				<result name="SUCCESS">/success.jsp</result>
+			</action>
+			<action name="toupdateuser" class="userAction" method="toupdateuser">
+				<result name="INPUT">/index.jsp</result>
+				<result name="SUCCESS">/user/upduser.jsp</result>
+			</action>
+			<action name="toupdatepassword" class="userAction" method="toupdatepassword">
+				<result name="INPUT">/index.jsp</result>
+				<result name="SUCCESS">/user/updpassword.jsp</result>
+			</action>
+			<action name="updateuser" class="userAction" method="updateuser">
+				<result name="INPUT">/user/upduser.jsp</result>
+				<result name="SUCCESS">/user/upduser.jsp</result>
+			</action>
+			<action name="updatpassword" class="userAction" method="updatpassword">
+				<result name="INPUT">/user/upduser.jsp</result>
+				<result name="SUCCESS">/success.jsp</result>
+			</action>
+			<action name="tosetrole" class="userAction" method="tosetrole">
+				<result name="INPUT">/index.jsp</result>
+				<result name="SUCCESS">/user/setrole.jsp</result>
+			</action>
+			<action name="setrole" class="userAction" method="setrole">
+				<result name="INPUT">/user/upduser.jsp</result>
+				<result name="SUCCESS">/success.jsp</result>
+			</action>
+			<action name="listusers" class="userAction" method="listusers">
+				<result name="LISTUSERS">/user/listusers.jsp</result>
+			</action>
+			<action name="login" class="userAction" method="login">
+				<result name="ADMIN" type="redirect">/main.jsp</result>
+				<result name="SALE" type="redirect">/salemen.jsp</result>
+				<result name="WAREHOUSE" type="redirect">/warehouseman.jsp</result>
+				<result name="MANAGER" type="redirect">/main.jsp</result>
+				<result name="INPUT">/error.jsp</result>
+			</action>
+			<action name="logout" class="userAction" method="logout">
+				<result name="SUCCESS" type="redirect">/login.jsp</result>
+			</action>
+			<action name="viewuserinfo" class="userAction" method="viewuserinfo">
+				<result name="SUCCESS">/user/viewuserinfo.jsp</result>
+				<result name="INPUT">/error.jsp</result>
+			</action>
+		</package>
+	
+	<package name="company"  namespace="/company" extends="base">
+		<action name="addcompany" class="companyInfoAction" method="addCompany">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="token"></interceptor-ref>
+			<result name="invalid.token">/errorreapt.jsp</result>
+			<result name="INPUT">/companyinfo/addcompanyinfo.jsp</result>
+			<result name="SUCCESS">/success.jsp</result>
+		</action>
+		<action name="toupdcompany" class="companyInfoAction" method="toupdComapny">
+			<result name="TOUPDCOMPANY">/companyinfo/updcompanyinfo.jsp</result>
+			<result name="INPUT">/companyinfo/addcompanyinfo.jsp</result>
+		</action>
+		<action name="updcompany" class="companyInfoAction" method="updCompany">
+			<result name="INPUT">/main.jsp</result>
+			<result name="SUCCESS">/success.jsp</result>
+		</action>
+		<action name="listcompany" class="companyInfoAction" method="listCompany">
+			<result name="LISTCOMPANY">/companyinfo/listcompanys.jsp</result>
+		</action>
+	</package>
+	
+	<package name="customer" namespace="/customer" extends="base">
+		<action name="addcustomer" class="customerAction" method="addCustomer">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="token"></interceptor-ref>
+			<result name="invalid.token">/errorreapt.jsp</result>
+			<result name="SUCCESS">/success.jsp</result>
+			<result name="INPUT">/customer/addcustomer.jsp</result>
+		</action>
+		<action name="findDiscount" class="customerAction" method="findDiscount"></action>
+		<action name="addCustomerAjax" class="customerAction" method="addCustomerAjax"></action>
+		<action name="deleteCustomer" class="customerAction" method="deleteCustomer"></action>
+		<action name="deleteCustomerAjax" class="customerAction" method="deleteCustomerAjax"></action>
+		<action name="importcustomers" class="customerAction" method="importcustomers">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="token"></interceptor-ref>
+			<result name="invalid.token">/errorreapt.jsp</result>
+			<result name="SUCCESS">/success.jsp</result>
+			<result name="INPUT">/customer/importcustomers.jsp</result>
+		</action>
+		<action name="toupdcustomer" class="customerAction" method="toupdCustomer">
+			<result name="TOUPDCUSTOMER">/customer/updcustomer.jsp</result>
+			<result name="INPUT">/customer/listcustomer.jsp</result>
+		</action>
+		<action name="updcustomer" class="customerAction" method="updCustomer">
+			<result name="SUCCESS">/customer/updcustomer.jsp</result>
+			<result name="INPUT">/customer/updcustomer.jsp</result>
+		</action>
+		<action name="toimportpage" class="customerAction" method="toimportpage">
+			<result name="SUCCESS">/customer/importcustomers.jsp</result>
+		</action>
+		<action name="listcustomer" class="customerAction" method="listCustomer">
+			<result name="LIST">/customer/listcustomer.jsp</result>
+		</action>
+		<action name="findCustomer" class="customerAction" method="findCustomer">
+		</action>
+		<action name="createExcel" class="customerAction" method="createExcel">
+			<result name="SUCCESS" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename="customer-list.xls"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
+	</package>
+	
+	<package name="supplier" namespace="/supplier" extends="base">
+		<action name="addsupplier" class="supplierAction" method="addsupplier">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="token"></interceptor-ref>
+			<result name="invalid.token">/errorreapt.jsp</result>
+			<result name="SUCCESS">/success.jsp</result>
+			<result name="INPUT">/supplier/addsupplier.jsp</result>
+		</action>
+		<action name="addsupplierAjax" class="supplierAction" method="addsupplierAjax"></action>
+		<action name="deleteSupplier" class="supplierAction" method="deleteSupplier"></action>
+		<action name="deleteSupplierAjax" class="supplierAction" method="deleteSupplierAjax"></action>
+		<action name="importsuppliers" class="supplierAction" method="importsuppliers">
+			<result name="SUCCESS">/success.jsp</result>
+			<result name="INPUT">/supplier/importsuppliers.jsp</result>
+		</action>
+		<action name="toupdsupplier" class="supplierAction" method="toupdsupplier">
+			<result name="TOUPDSUPPLIER">/supplier/updsupplier.jsp</result>
+			<result name="INPUT">/supplier/listsupplier.jsp</result>
+		</action>
+		<action name="updsupplier" class="supplierAction" method="updsupplier">
+			<result name="SUCCESS">/supplier/updsupplier.jsp</result>
+			<result name="INPUT">/supplier/updsupplier.jsp</result>
+		</action>
+		<action name="toimportpage" class="supplierAction" method="toimportpage">
+			<result name="SUCCESS">/supplier/importsuppliers.jsp</result>
+		</action>
+		<action name="listsupplier" class="supplierAction" method="listsupplier">
+			<result name="LIST">/supplier/listsupplier.jsp</result>
+		</action>
+		<action name="createExcel" class="supplierAction" method="createExcel">
+			<result name="SUCCESS" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename="suplier-list.xls"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
+	</package>
+	
+	<package name="warehouse" namespace="/warehouse" extends="base">
+		<action name="addwarehouse" class="warehouseAction" method="addwarehouse">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="token"></interceptor-ref>
+			<result name="invalid.token">/errorreapt.jsp</result>
+			<result name="SUCCESS">/success.jsp</result>
+			<result name="INPUT">/warehouse/addwarehouse.jsp</result>
+		</action>
+		<action name="addwarehouseAjax" class="warehouseAction" method="addwarehouseAjax"></action>
+		<action name="deletewarehouseAjax" class="warehouseAction" method="deletewarehouseAjax"></action>
+		<action name="toupdwarehouse" class="warehouseAction" method="toupdwarehouse">
+			<result name="TOUPD">/warehouse/updwarehouse.jsp</result>
+			<result name="INPUT">/warehouse/listwarehouse.jsp</result>
+		</action>
+		<action name="updwarehouse" class="warehouseAction" method="updwarehouse">
+			<result name="SUCCESS">/warehouse/updwarehouse.jsp</result>
+			<result name="INPUT">/warehouse/updwarehouse.jsp</result>
+		</action>
+		<action name="listwarehouse" class="warehouseAction" method="listwarehouse">
+			<result name="LIST">/warehouse/listwarehouse.jsp</result>
+		</action>
+		<action name="createExcel" class="warehouseAction" method="createExcel">
+			<result name="SUCCESS" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename="warehouse-list.xls"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
+	</package>
+	
+	<package name="ptype" namespace="/ptype" extends="base">
+		<action name="addptype" class="ptypeAction" method="addptype">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="token"></interceptor-ref>
+			<result name="invalid.token">/errorreapt.jsp</result>
+			<result name="SUCCESS">/success.jsp</result>
+			<result name="INPUT">/ptype/addptype.jsp</result>
+		</action>
+		<action name="addptypeAjax" class="ptypeAction" method="addptypeAjax"></action>
+		<action name="deleteptypeAjax" class="ptypeAction" method="deleteptypeAjax"></action>
+		<action name="toupdptype" class="ptypeAction" method="toupdptype">
+			<result name="TOUPD">/ptype/updptype.jsp</result>
+			<result name="INPUT">/ptype/listptype.jsp</result>
+		</action>
+		<action name="updptype" class="ptypeAction" method="updptype">
+			<result name="SUCCESS">/ptype/updptype.jsp</result>
+			<result name="INPUT">/ptype/updptype.jsp</result>
+		</action>
+		<action name="toimportpage" class="ptypeAction" method="toimportpage">
+			<result name="SUCCESS">/ptype/importptype.jsp</result>
+		</action>
+		<action name="listptype" class="ptypeAction" method="listptype">
+			<result name="LIST">/ptype/listptype.jsp</result>
+		</action>
+		<action name="uploadfile" class="ptypeAction" method="uploadfile">
+		</action>
+		<action name="importptypes" class="ptypeAction" method="importptypes">
+			<result name="INPUT">/ptype/importptype.jsp</result>
+		</action>
+		<action name="createExcel" class="ptypeAction" method="createExcel">
+			<result name="SUCCESS" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename="producttype-list.xls"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
+	</package>
+	
+	<package name="productinfo" namespace="/productinfo" extends="base">
+		<action name="getbarcode" class="productinfoAction" method="getbarcode"></action>
+		<action name="getinfo" class="productinfoAction" method="getinfo"></action>
+		<action name="findProductInfo" class="productinfoAction" method="findProductInfo"></action>
+        <action name="toaddproductinfo" class="productinfoAction" method="toaddproductinfo">
+			<result name="TOADD">/productinfo/addproductinfo.jsp</result>
+		</action>
+		<action name="addproductinfo" class="productinfoAction" method="addproductinfo">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="token"></interceptor-ref>
+			<result name="invalid.token">/errorreapt.jsp</result>
+			<result name="SUCCESS" type="chain">
+				<param name="actionName">toupdproductinfo</param>
+				<param name="msg">${msg}</param>
+				<param name="encode">true</param>
+			</result>
+			<result name="INPUT" type="redirectAction">
+				<param name="actionName">toaddproductinfo</param>
+				<param name="msg">${msg}</param>
+				<param name="encode">true</param>
+			</result>
+		</action>
+		<action name="toimportpage" class="productinfoAction" method="toimportpage">
+			<result name="SUCCESS">/productinfo/importproductinfo.jsp</result>
+		</action>
+		<action name="addproductinfoAjax" class="productinfoAction" method="addproductinfoAjax"></action>
+		<action name="delproductinfoAjax" class="productinfoAction" method="delproductinfoAjax"></action>
+		<action name="importproductinfos" class="productinfoAction" method="importproductinfos">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="token"></interceptor-ref>
+			<result name="invalid.token">/errorreapt.jsp</result>
+			<result name="SUCCESS">/productinfo/importproductinfo.jsp</result>
+			<result name="INPUT">/productinfo/importproductinfo.jsp</result>
+		</action>
+		<action name="toupdproductinfo" class="productinfoAction" method="toupdproductinfo">
+			<result name="TOUPD">/productinfo/updproductinfo.jsp</result>
+			<result name="INPUT">/productinfo/listproductinfo.jsp</result>
+		</action>
+		<action name="updproductinfo" class="productinfoAction" method="updproductinfo">
+			<result name="INPUT">/productinfo/updproductinfo.jsp</result>
+			<result name="SUCCESS">/productinfo/updproductinfo.jsp</result>
+		</action>
+		<action name="updatepricefromexcel" class="productinfoAction" method="updatepricefromexcel">
+			<result name="SUCCESS">/success.jsp</result>
+			<result name="INPUT">/productinfo/listproductprice.jsp</result>
+		</action>
+		<action name="listproductinfo" class="productinfoAction" method="listproductinfo">
+			<result name="LIST">/productinfo/listproductinfo.jsp</result>
+		</action>
+		<action name="listproductprice" class="productinfoAction" method="listproductprice">
+			<result name="LIST">/productinfo/listproductprice.jsp</result>
+		</action>
+		<action name="createpriceexcel" class="productinfoAction" method="createpriceexcel">
+			<result name="SUCCESS" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename="product-price.xls"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
+		<action name="createExcel" class="productinfoAction" method="createExcel">
+			<result name="SUCCESS" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename="productinfo-list.xls"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
+		<action name="printbarcode" class="productinfoAction" method="printbarcode">
+			<result name="SUCCESS">/productinfo/printbarcode.jsp</result>
+			<result name="INPUT">/error.jsp</result>
+		</action>
+		<action name="setallup" class="productinfoAction" method="setallup"></action>
+		<action name="setalldown" class="productinfoAction" method="setalldown"></action>
+	</package>	
+	
+	<package name="inbound" namespace="/inbound" extends="base">
+		<action name="tempInbound" class="inboundAction" method="tempInbound">
+		</action>
+		<action name="tempInboundaddquanity" class="inboundAction" method="tempInboundaddquanity">
+		</action>
+		<action name="removetempInbound" class="inboundAction" method="removetempInbound">
+		</action>
+		<action name="toinboundpage" class="inboundAction" method="toinboundpage">
+			<result name="TYPE1">/stock/type1in.jsp</result>
+			<result name="TYPE2">/stock/type2in.jsp</result>
+			<result name="TYPE3">/stock/storeinbound.jsp</result>
+			<result name="INPUT">/stock/chooseitype.jsp</result>
+		</action>
+		<action name="type1in" class="inboundAction" method="type1in">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="token"></interceptor-ref>
+			<result name="invalid.token">/errorreapt.jsp</result>
+			<result name="SUCCESS">/success.jsp</result>
+			<result name="INPUT">/error.jsp</result>
+		</action>
+		<action name="type2in" class="inboundAction" method="type2in">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="token"></interceptor-ref>
+			<result name="invalid.token">/stock/chooseitype.jsp</result>
+			<result name="SUCCESS" type="redirectAction">
+				<param name="actionName">toinboundpage</param>
+				<param name="msg">${msg}</param>
+				<param name="itype">2</param>
+				<param name="encode">true</param>
+			</result>
+			<result name="INPUT" type="redirectAction">
+				<param name="actionName">toinboundpage</param>
+				<param name="msg">${msg}</param>
+				<param name="itype">2</param>
+				<param name="encode">true</param>
+			</result>
+			<result name="TOADDINFO" type="redirectAction">
+				<param name="namespace">/productinfo</param>
+				<param name="actionName">toaddproductinfo</param>
+			</result>
+		</action>
+		<action name="storeInbound" class="inboundAction" method="storeInbound">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="token"></interceptor-ref>
+			<result name="invalid.token">/stock/storeinbound.jsp</result>
+			<result name="SUCCESS" type="redirectAction">
+				<param name="actionName">toinboundpage</param>
+				<param name="msg">${msg}</param>
+				<param name="itype">3</param>
+				<param name="encode">true</param>
+			</result>
+			<result name="INPUT" type="redirectAction">
+				<param name="actionName">toinboundpage</param>
+				<param name="msg">${msg}</param>
+				<param name="itype">3</param>
+				<param name="encode">true</param>
+			</result>
+			<result name="TOADDINFO" type="redirectAction">
+				<param name="namespace">/productinfo</param>
+				<param name="actionName">toaddproductinfo</param>
+			</result>
+		</action>
+		<action name="totype2import" class="inboundAction" method="totype2import">
+			<result name="SUCCESS">/stock/type2import.jsp</result>
+			<result name="INPUT">/stock/type2import.jsp</result>
+		</action>
+		<action name="type2import" class="inboundAction" method="type2import">
+			<result name="LOGIN">/login.jsp</result>
+			<result name="SUCCESS">/stock/type2import.jsp</result>
+			<result name="INPUT">/stock/type2import.jsp</result>
+		</action>
+		<action name="updateInboundAjax" class="inboundAction" method="updateInboundAjax"></action>
+		<action name="cancelInbound" class="inboundAction" method="cancelInbound">
+		</action>
+		<action name="innoteRecords" class="inboundAction" method="innoteRecords">
+			<result name="SUCCESS">/stock/listinnote.jsp</result>
+			<result name="INPUT">/stock/listinnote.jsp</result>
+		</action>
+		<action name="listinnotelist" class="inboundAction" method="listinnotelist">
+			<result name="SUCCESS">/stock/listinnotelist.jsp</result>
+		</action>
+		<action name="createInnoteList" class="inboundAction" method="createInnoteList">
+			<result name="SUCCESS">/stock/ruhuomingxi.jsp</result>
+		</action>
+		<action name="createStatisticsTable" class="inboundAction" method="createStatisticsTable">
+			<result name="SUCCESS">/stock/ruhuogailan.jsp</result>
+		</action>
+		<action name="innotelistdetail" class="inboundAction" method="innotelistdetail">
+			<result name="SUCCESS">/stock/innotelistdetail.jsp</result>
+			<result name="INPUT">/stock/innotelistdetail.jsp</result>
+		</action>
+		<action name="innotelistdetailexcel" class="inboundAction" method="innotelistdetailexcel">
+			<result name="SUCCESS" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename="innotedetail.xls"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+			<result name="INPUT">/stock/innotelistdetail.jsp</result>
+		</action>
+	</package>
+	<package name="stock" namespace="/stock" extends="base">
+		<action name="toinitStock" class="inboundAction" method="toinitStock">
+			<result name="SUCCESS">/stock/initpstock.jsp</result>
+		</action>
+		<action name="initStock" class="inboundAction" method="initStock">
+			<result name="SUCCESS">/stock/initpstock.jsp</result>
+			<result name="INPUT">/error.jsp</result>
+		</action>
+		<action name="listStock" class="stockAction" method="listStock">
+			<result name="SUCCESS">/stock/liststock.jsp</result>
+			<result name="INPUT">/stock/liststock.jsp</result>
+		</action>
+		<action name="recoverStock" class="stockAction" method="recoverStock">
+			<result name="SUCCESS">/success.jsp</result>
+		</action>
+		<action name="listStockExcel" class="stockAction" method="listStockExcel">
+			<result name="SUCCESS" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename="stock-list.xls"</param>
+				<param name="bufferSize">2048</param>
+			</result>
+		</action>
+	</package>
+	<package name="sale" namespace="/sale" extends="base">
+		<action name="cancelByInvoice" class="saleAction" method="cancelByInvoice">
+			<result name="SUCCESS">/success.jsp</result>
+			<result name="INPUT">/error.jsp</result>
+		</action>
+		<action name="deleteByInvoice" class="saleAction" method="deleteByInvoice">
+			<result name="SUCCESS" type="redirectAction">
+				<param name="actionName">findRecordByDate</param>
+				<param name="me">${me}</param>		
+			</result>
+			<result name="INPUT">/error.jsp</result>
+		</action>
+		<action name="findlistByInvoice" class="saleAction" method="findlistByInvoice">
+			<result name="SUCCESS">/sale/listdetial.jsp</result>
+		</action>
+		<action name="findRecordByDate" class="saleAction" method="findRecordByDate">
+			<result name="SUCCESS">/sale/listrecord.jsp</result>
+		</action>
+		<action name="findSaleRecordListByDate" class="saleAction" method="findSaleRecordListByDate">
+			<result name="SUCCESS">/sale/xiaoshoummingxi.jsp</result>
+		</action>
+		<action name="toCreateOutDetial" class="saleAction" method="toCreateOutDetial">
+			<result name="EXCEL">/sale/fromexcel.jsp</result>
+			<result name="NONE">/sale/out.jsp</result>
+		</action>
+		<action name="createOutDetailfromExcel" class="saleAction" method="createOutDetailfromExcel">
+			<!--<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="token"></interceptor-ref>
+			<result name="invalid.token">/errorreapt.jsp</result>-->
+			<result name="SUCCESS" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename="outdetail.xls"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+			<!-- <result name="SUCCESS">/sale/invoice.jsp</result> -->
+		</action>
+		<action name="createOutDetail" class="saleAction" method="createOutDetail">
+			<result name="SUCCESS">/sale/invoice.jsp</result>
+			<result name="ERROR">/error.jsp</result>
+			<result name="INPUT" type="redirectAction">
+				<param name="actionName">toCreateOutDetial</param>
+				<param name="flag">NONE</param>
+			</result>
+		</action>
+		<action name="addSale" class="saleAction" method="addSale">
+			<result name="SUCCESS">/sale/printinvoice.jsp</result>
+			<result name="INPUT">/sale/out.jsp</result>
+		</action>
+		<action name="toupdate" class="saleAction" method="toupdate">
+			<result name="SUCCESS">/sale/updateinvoice.jsp</result>
+			<result name="INPUT">/sale/listdetial.jsp</result>
+		</action>
+		<action name="updatesale" class="saleAction" method="updatesale">
+			<result name="SUCCESS">/sale/printinvoice.jsp</result>
+			<result name="INPUT">/sale/out.jsp</result>
+		</action>
+		<action name="createOriginalExcel" class="saleAction" method="createOriginalExcel">
+			<result name="SUCCESS" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename="input.xls"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+			<result name="ERROR">/error.jsp</result>
+			<result name="INPUT">/error.jsp</result>
+		</action>
+		<action name="recreateOutDetail" class="saleAction" method="recreateOutDetail">
+			<result name="SUCCESS" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename="output.xls"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+			<result name="ERROR">/error.jsp</result>
+			<result name="INPUT">/error.jsp</result>
+		</action>
+		<action name="backupSalerecord" class="saleAction" method="backupSalerecord">
+			<result name="SUCCESS" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename="backupSalerecord.xls"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
+		<action name="recover" class="saleAction" method="recover">
+			<result name="SUCCESS">/success.jsp</result>
+			<result name="INPUT">/error.jsp</result>
+		</action>
+		<action name="listCount" class="saleAction" method="listCount">
+			<result name="SUCCESS">/sale/listcount.jsp</result>
+		</action>
+		<action name="findByImei" class="saleAction" method="findByImei">
+			<result name="SUCCESS">/sale/imeiList.jsp</result>
+		</action>
+		<action name="findCustomerSaleRecords" class="saleAction" method="findCustomerSaleRecords"></action>
+	</package>
+	
+	<package name="retial" namespace="/retial" extends="base">
+		<action name="findProduct" class="retialAction" method="findProduct">
+		</action>
+		<action name="findStock" class="retialAction" method="findStock">
+		</action>
+		<action name="topos" class="retialAction" method="topos">
+			<result name="SUCCESS">/retial/pos.jsp</result>
+			<result name="INPUT">/error.jsp</result>
+		</action>
+		<action name="createAdeal" class="retialAction" method="createAdeal">
+			<result name="SUCCESS" type="dispatcher">/retial/printinvoice.jsp</result>
+			<result name="INPUT" type="redirect">/retial/pos.jsp</result>
+			<result name="LOGIN" type="redirect">/login.jsp</result>
+			<result name="TOKEN" type="redirect">/errorreapt.jsp</result>
+		</action>
+		<action name="handupAdeal" class="retialAction" method="handupAdeal">
+		</action>
+		<action name="listHandup" class="retialAction" method="listHandup">
+		</action>
+		<action name="cancelAdeal" class="retialAction" method="cancelAdeal">
+			<result name="SUCCESS" type="redirectAction">
+				<param name="actionName">topos</param>
+			</result>
+		</action>
+		<action name="recoverAdeal" class="retialAction" method="recoverAdeal">
+			<result name="SUCCESS" type="chain">
+				<param name="actionName">topos</param>
+			</result>
+			<result name="INPUT">/error.jsp</result>
+		</action>
+		<action name="getInfoByImei" class="retialAction" method="getInfoByImei">
+		</action>
+	</package>
+	
+	<package name="transfer" namespace="/transfer" extends="base">
+		<action name="toTransfer" class="transferAction" method="toTransfer">
+			<result name="SUCCESS">/transfer/addtransfer.jsp</result>
+		</action>
+		<action name="addTransfer" class="transferAction" method="addTransfer">
+			<!-- <result name="SUCCESS" type="redirectAction">
+				<param name="actionName">transferDetial</param>
+				<param name="id">${transfer.id}</param>
+			</result> -->
+			<result name="SUCCESS">/success.jsp</result>
+			<result name="INPUT">/error.jsp</result>
+		</action>
+		<action name="listTransfer" class="transferAction" method="listTransfer">
+			<result name="SUCCESS">/transfer/listtransfer.jsp</result>
+			<result name="INPUT">/transfer/listtransfer.jsp</result>
+		</action>
+		<action name="transferDetial" class="transferAction" method="transferDetial">
+			<result name="SUCCESS">/transfer/listtransferdetial.jsp</result>
+			<result name="INPUT">/transfer/listtransfer.jsp</result>
+		</action>
+		<action name="cancelTransfer" class="transferAction" method="cancelTransfer">
+			<result name="SUCCESS">/transfer/listtransferdetial.jsp</result>
+			<result name="INPUT">/transfer/listtransferdetial.jsp</result>
+		</action>
+	</package>
+	<package name="report" namespace="/report" extends="base">
+		<action name="saleImeiReport" class="reportAction" method="saleImeiReport">
+			<result name="SUCCESS">/report/saleproductlist.jsp</result>
+		</action>
+		<action name="daytodaySaleReport" class="reportAction" method="daytodaySaleReport">
+			<result name="SUCCESS">/report/daytodaysalereport.jsp</result>
+		</action>
+		<action name="daytodaySaleReportBytype" class="reportAction" method="daytodaySaleReportBytype">
+			<result name="SUCCESS">/report/daytodaysalereportbytype.jsp</result>
+		</action>
+		<action name="daytodaySaleReportByproduct" class="reportAction" method="daytodaySaleReportByproduct">
+			<result name="SUCCESS">/report/daytodaysalereportbyprouct.jsp</result>
+		</action>
+		<action name="daytodaySaleReportBycustomer" class="reportAction" method="daytodaySaleReportBycustomer">
+			<result name="SUCCESS">/report/daytodaysalereportbycustomer.jsp</result>
+		</action>
+		<action name="daytodaySaleReportBypay" class="reportAction" method="daytodaySaleReportBypay">
+			<result name="SUCCESS">/report/daytodaysalereportbypay.jsp</result>
+		</action>
+		<action name="daytodaySaleReportAjax" class="reportAction" method="daytodaySaleReportAjax">
+		</action>
+		<action name="profitReport" class="reportAction" method="profitReport">
+			<result name="SUCCESS">/report/profitreport.jsp</result>
+		</action>
+	</package>
+	<package name="printoption" namespace="/printoption" extends="base">
+		<action name="updateAjax" class="printOptionAction" method="updateAjax">
+		</action>
+		<action name="toupdate" class="printOptionAction" method="toupdate">
+			<result name="SUCCESS">/optionupdate.jsp</result>
+			<result name="INPUT">/option.jsp</result>
+		</action>
+	</package>
+	<package name="upload" namespace="/upload" extends="base">
+		<action name="uploadFile" class="fileUploadAction" method="uploadFile">
+			<interceptor-ref name="fileUpload">
+				<param name="maximumSize">1048576</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<result name="SUCCESS" type="redirectAction">
+				<param name="actionName">listPicture</param>
+				<param name="catalogid">${catalogid}</param>
+			</result>
+		</action>
+		<action name="uploadFileAjax" class="fileUploadAction" method="uploadFileAjax"></action>
+		<action name="uploadFileAjaxhaveBarcode" class="fileUploadAction" method="uploadFileAjaxhaveBarcode"></action>
+		<action name="uploadFileByOSSAjax" class="fileUploadAction" method="uploadFileByOSSAjax"></action>
+		<action name="uploadFileByOSS" class="fileUploadAction" method="uploadFileByOSS">
+			<interceptor-ref name="fileUpload">
+				<param name="maximumSize">10*1024*1024</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<result name="SUCCESS" type="redirectAction">
+				<param name="actionName">listPictureByOSS</param>
+			</result>
+		</action>
+		<action name="uploadimage" class="fileUploadAction" method="uploadimage"></action>
+		<action name="addCatalog" class="fileUploadAction" method="addCatalog"></action>
+		<action name="changeCatalog" class="fileUploadAction" method="changeCatalog"></action>
+		<action name="changeBarcode" class="fileUploadAction" method="changeBarcode"></action>
+		<action name="toChangeMainPicture" class="fileUploadAction" method="toChangeMainPicture">
+			<result name="SUCCESS">/productinfo/setmainpicture.jsp</result>
+		</action>
+		<action name="changeMainPicture" class="fileUploadAction" method="changeMainPicture"></action>
+		<action name="deleteImage" class="fileUploadAction" method="deleteImage"></action>
+		<action name="deleteImageByOSS" class="fileUploadAction" method="deleteImageByOSS"></action>
+		<action name="listPicture" class="fileUploadAction" method="listPicture">
+			<result name="SUCCESS">/upload/showpictures.jsp</result>
+			<!--  <result name="SUCCESS">/upload/uploadpage.jsp</result> -->
+		</action>
+		<action name="listPictureByOSS" class="fileUploadAction" method="listPictureByOSS">
+			<result name="SUCCESS">/upload/showpicturesbyoss.jsp</result>
+		</action>
+		<action name="progress" class="fileUploadAction" method="progress"></action>
+		<action name="toMeituEditor" class="fileUploadAction" method="toMeituEditor">
+			<result name="SUCCESS">/upload/meitu-editor.jsp</result>
+			<result name="INPUT">/error.jsp</result>
+		</action>
+		<action name="meituEditor" class="fileUploadAction" method="meituEditor"></action>
+		<action name="deleteFloder" class="fileUploadAction" method="deleteFloder"></action>
+	</package>
+	<package name="tuihuo" namespace="/tuihuo" extends="base">
+		<action name="toaddReturnSale" class="tuihuoAction" method="toaddReturnSale">
+			<result name="SUCCESS">/tuihuo/savereturnsale.jsp</result>
+			<result name="INPUT">/error.jsp</result>
+		</action>
+		<action name="listReturnSale" class="tuihuoAction" method="listReturnSale">
+			<result name="SUCCESS">/tuihuo/listreturnsale.jsp</result>
+		</action>
+		<action name="findByReturnNo" class="tuihuoAction" method="findByReturnNo">
+			<result name="SUCCESS">/tuihuo/returnsaledetial.jsp</result>
+			<result name="INPUT">/error.jsp</result>
+		</action>
+		<action name="cancel" class="tuihuoAction" method="cancel">
+			<result name="SUCCESS" type="redirectAction">
+				<param name="actionName">listReturnSale</param>
+			</result>
+			<result name="INPUT">/error.jsp</result>
+		</action>
+		<action name="getSalerecordInfo" class="tuihuoAction" method="getSalerecordInfo"></action>
+		<action name="getSaleLists" class="tuihuoAction" method="getSaleLists"></action>
+		<action name="updateReturnsaleAjax" class="tuihuoAction" method="updateReturnsaleAjax"></action>
+		<action name="createreturnsale" class="tuihuoAction" method="createreturnsale">
+			<!-- <result name="SUCCESS">/success.jsp</result> -->
+			<result name="INPUT">/error.jsp</result>
+		</action>
+	</package>
+	<package name="webshop" namespace="/webshop" extends="base">
+		<action name="towebshop" class="webShopAction" method="towebshop">
+			<result name="SUCCESS">/webshop/main.jsp</result>
+		</action>
+		<action name="viewer" class="webShopAction" method="viewer">
+			<result name="SUCCESS">/webshop/viewer.jsp</result>
+		</action>
+		<action name="moreproduct" class="webShopAction" method="moreproduct"></action>
+		<action name="getonedetail" class="webShopAction" method="getonedetail"></action>
+		<action name="addToCar" class="webShopAction" method="addToCar"></action>
+		<action name="getCarInfo" class="webShopAction" method="getCarInfo"></action>
+		<action name="getCarsize" class="webShopAction" method="getCarsize"></action>
+	</package>
+	<package name="checking" namespace="/checking" extends="base">
+		<action name="findProductInfo" class="checkingAction" method="findProductInfo"></action>
+		<action name="toCheckingPage" class="checkingAction" method="toCheckingPage">
+			<result name="SUCCESS">/stockingcheck/addstockingcheck.jsp</result>
+		</action>
+		<action name="addChecking" class="checkingAction" method="addChecking">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="token"></interceptor-ref>
+			<result name="invalid.token" type="redirectAction">
+				<param name="actionName">toCheckingPage</param>
+			</result>
+			<result name="INPUT">/error.jsp</result>
+			<result name="SUCCESS">/stockingcheck/listcheckingdetail.jsp</result>
+		</action>
+		<action name="listCheckingList" class="checkingAction" method="listCheckingList">
+			<result name="SUCCESS">/stockingcheck/listchecking.jsp</result>
+		</action>
+		<action name="cancelChecking" class="checkingAction" method="cancelChecking">
+			<result name="SUCCESS">/success.jsp</result>
+			<result name="INPUT">/error.jsp</result>
+		</action>
+		<action name="createCheckingExcel" class="checkingAction" method="createCheckingExcel">
+			<result name="SUCCESS" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename="checkinglist.xls"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
+	</package>
+</struts>    

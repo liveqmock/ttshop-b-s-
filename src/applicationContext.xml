@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+	
+	
+	<context:annotation-config></context:annotation-config>
+	
+	<!--  
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName"
+			value="com.mysql.jdbc.Driver">
+		</property>
+		<property name="url" value="jdbc:mysql://localhost:3306/pos"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="root"></property>
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+			</props>
+		</property>
+	</bean>
+	-->
+	<!-- 配置session -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="configLocation"
+			value="classpath:hibernate.cfg.xml">
+		</property>
+	</bean>
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	<!-- 配置hibernateTemplate -->
+	<bean id="hibernateTemplate" 
+		class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<!-- 注入baseDao -->
+	<bean id="baseDao" class="daoImpl.BaseDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>	
+	</bean>
+	<bean id="baseService" class="serviceImpl.BaseServiceImpl"></bean>
+	<bean id="employeeService" class="serviceImpl.EmployeeServiceImpl"></bean>
+	<bean id="userService" class="serviceImpl.UserServiceImpl"></bean>
+	<bean id="companyInfoService" class="serviceImpl.CompanyInfoServiceImpl"></bean>
+	<bean id="ppriceService" class="serviceImpl.PpriceServiceImpl"></bean>
+	<bean id="pstockService" class="serviceImpl.PstockServiceImpl"></bean>
+	<bean id="ptypeService" class="serviceImpl.PtypeServiceImpl"></bean>
+	<bean id="warehouseService" class="serviceImpl.WarehouseServiceImpl"></bean>
+	<bean id="customerService" class="serviceImpl.CustomerServiceImpl"></bean>
+	<bean id="supplierService" class="serviceImpl.SupplierServiceImpl"></bean>
+	<bean id="productinfoService" class="serviceImpl.ProductinfoServiceImpl"></bean>
+	<bean id="productService" class="serviceImpl.ProductServiceImpl"></bean>
+	<bean id="innoteService" class="serviceImpl.InnoteServiceImpl"></bean>
+	<bean id="innoteListService" class="serviceImpl.InnoteListServiceImpl"></bean>
+	<bean id="saleService" class="serviceImpl.SaleServiceImpl"></bean>
+	<bean id="saleListService" class="serviceImpl.SaleListServiceImpl"></bean>
+	<bean id="myidService" class="serviceImpl.MyidServiceImpl"></bean>
+	<bean id="transferService" class="serviceImpl.TransferServiceImpl"></bean>
+	<bean id="transferListService" class="serviceImpl.TransferListServiceImpl"></bean>
+	<bean id="printOptionService" class="serviceImpl.PrintOptionServiceImpl"></bean>
+	<bean id="returnSaleService" class="serviceImpl.ReturnSaleServiceImpl"></bean>
+	<bean id="returnSaleListService" class="serviceImpl.ReturnSaleListServiceImpl"></bean>
+	<bean id="pictureService" class="serviceImpl.PictureServiceImpl"></bean>
+	<bean id="pictureCatalogService" class="serviceImpl.PictureCatalogServiceImpl"></bean>
+	<bean id="webOrderService" class="serviceImpl.WebOrderServiceImpl"></bean>
+	<bean id="webOrderListService" class="serviceImpl.WebOrderListServiceImpl"></bean>
+	<bean id="stockCheckingService" class="serviceImpl.StockCheckingServiceImpl"></bean>
+	
+	<bean id="baseAction" class="action.BaseAction" scope="prototype"></bean>
+	<bean id="userAction" class="action.UserAction" scope="prototype"></bean>
+	<bean id="companyInfoAction" class="action.CompanyInfoAction" scope="prototype"></bean>
+	<bean id="customerAction" class="action.CustomerAction" scope="prototype"></bean>
+	<bean id="supplierAction" class="action.SupplierAction" scope="prototype"></bean>
+	<bean id="warehouseAction" class="action.WarehouseAction" scope="prototype"></bean>
+	<bean id="ptypeAction" class="action.PtypeAction" scope="prototype"></bean>
+	<bean id="productinfoAction" class="action.ProductinfoAction" scope="prototype"></bean>
+	<bean id="priceAction" class="action.PriceAction" scope="prototype"></bean>
+	<bean id="inboundAction" class="action.InboundAction" scope="prototype"></bean>
+	<bean id="stockAction" class="action.StockAction" scope="prototype"></bean>
+	<bean id="saleAction" class="action.SaleAction" scope="prototype"></bean>
+	<bean id="retialAction" class="action.RetialAction" scope="prototype"></bean>
+	<bean id="transferAction" class="action.TransferAction" scope="prototype"></bean>
+	<bean id="reportAction" class="action.ReportAction" scope="prototype"></bean>
+	<bean id="printOptionAction" class="action.PrintOptionAction" scope="prototype"></bean>
+	<bean id="fileUploadAction" class="action.FileUploadAction" scope="prototype"></bean>
+	<bean id="tuihuoAction" class="action.TuihuoAction" scope="prototype"></bean>
+	<bean id="webShopAction" class="action.WebshopAction" scope="prototype"></bean>
+	<bean id="checkingAction" class="action.CheckingAction" scope="prototype"></bean>
+	
+	
+</beans>

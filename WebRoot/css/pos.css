@@ -1,0 +1,102 @@
+.total{
+  	color: red;
+  	background-color:#fff;
+  	font-weight:bolder;
+  	text-align: center;
+  	border: none;
+ }
+.discount{
+  	background-color:#fff;
+  	font-weight:bolder;
+  	text-align: center;
+ }
+#top div{
+	margin-left: 0;
+	float: left;
+}
+¡£price{
+	background-color:#fff799;
+}
+.quantity{
+	background-color:#fff799;
+}
+.table{
+	height:350px;
+	overflow:scroll;
+}
+.table ul{
+	margin: 0;
+	padding: 0;
+	display:block;
+	width:100%;
+	float: left;
+}
+.table ul li{
+	margin: 0;
+	padding: 0;
+	float: left;
+	text-align: center;
+	vertical-align: middle;
+}
+.table ul li input{
+	clear: both;
+	padding: 0;
+	margin: 0;
+	width: 96%;
+	height: 28px;
+	text-align: center;
+	background-color:#fff;
+	vertical-align: middle;
+	border: none;
+}
+.items li{
+	display: block;
+	float: left;
+	height: 30px;
+	border-bottom: 1px solid blue;
+}
+#title li{
+	background-color: #cfcfcf;
+	line-height: 30px;
+	height: 30px;
+}
+#foot input{
+	text-align: center;
+}
+#foot div{
+	margin: 0;
+	float: left;
+}
+.shuru{
+	margin-top: 1em;
+	margin-left:0;
+	margin-right:0;
+	padding-top:1em;
+	padding-bottom:1em;
+	border: 1px solid #cccfff;
+}
+.pure-form input[readonly]{
+	background-color: white;
+	border: 1px solid white;
+}
+#content input{
+	width: 98%;
+	text-align: center;
+	border: none;
+	height: 100%;
+	line-height: 100%;
+}
+#content button{
+	height: 100%;
+	line-height: 100%;
+}
+.pure-buttonx{
+	padding-top: 0;
+	padding-bottom: 0;
+	padding-left: 1em;
+	padding-right: 1em;
+}
+.list-height{
+	height: 29px;
+	line-height: 29px;
+}

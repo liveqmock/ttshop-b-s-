@@ -1,0 +1,9 @@
+CACHE MANIFEST
+# 2015-03-18 v1.0.0
+css/bootstrap.min.css
+js/bootstrap.min.js
+js/jquery.js
+*.gif
+*.png
+*.jpg
+

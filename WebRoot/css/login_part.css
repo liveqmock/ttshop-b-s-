@@ -1,0 +1,70 @@
+*{
+	list-style: none;
+}
+body,html{
+	font-size: 14px;
+}
+.flat-span{
+	float: left;
+	display: block;
+}
+.flat-span:hover{
+	opacity: 0.9;
+	-webkit-opacity: 0.9;
+	-moz-opacity: 0.9;
+}
+.span{
+	box-sizing: border-box;
+	min-height: 220px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 10px;
+	overflow: hidden;
+}
+.span .inner-left{
+	float: left;
+	width: 65%;
+}
+.span .inner-right{
+	float: right;
+	width: 30%;
+}
+.span .inner-right>img{
+	vertical-align: middle;;
+	text-align: center;
+	line-height: 1;
+}
+.barcode-box{
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-left: 5px;
+	vertical-align: middle;;
+	text-align: center;
+	float: left;
+}
+.barcode-box div{
+	float: right;
+}
+.span h6{
+	margin-left: 5px;
+	font-weight: normal;
+}
+.color1{
+	background-color: #663399;
+	color: #FFF;
+}
+.color2{
+	background-color: #009999;	
+}
+.color3{
+	background-color: #CC3399;
+	color: #FFF;
+}
+.color1 h6{
+    color: #f1f1f1;
+}
+.font-color-wihte{
+	color: #FFFFFF;
+}
